@@ -9,7 +9,6 @@ function Dashboard() {
   const [selectedBill, setSelectedBill] = useState(null);
 
   useEffect(() => {
-    console.log("useEffect is running!");
     console.log(API_ENDPOINTS.GET_DASHBOARD_DATA)
     const fetchData = async () => {
 

@@ -17,7 +17,8 @@ function Bill() {
     loading,
     uploadImageAndGetReading,
     updateReading,
-    resetReading
+    resetReading,
+    getKWh
   } = useMeterReading();
 
   const {
@@ -75,7 +76,9 @@ function Bill() {
                 <ReadingDisplay
                   reading={reading}
                   prevReading={prevReading}
+                  getKWh={getKWh}
                   onReadingChange={updateReading}
+
                 />
                 <div className="flex justify-center my-2">
                   <PaymentButton roomNumber={room} reading={reading} fileName={selectedImage.name}/>

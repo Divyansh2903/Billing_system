@@ -8,12 +8,21 @@ export const useMeterReading = () => {
   const [prevReading, setPrevReading] = useState(0);
   const [loading, setLoading] = useState(false);
 
+  function getKWh(reading) {
+    var digits = ("" + reading).split("").map(Number);
+    const magntudes = [10000, 1000, 100, 10, 1, 0.1];
+    let readingInKWH = 0;
+    for (let i = 0; i < digits.length; i++) {
+      readingInKWH += digits[i] * magntudes[i];
+    }
+    return readingInKWH;
+  }
+
   const uploadImageAndGetReading = async (imageFile, room) => {
     if (!imageFile) {
       alert("No image selected");
       return false;
     }
-    console.log("hereee"+API_ENDPOINTS.UPLOAD_URL)
 
     setLoading(true);
     try {
@@ -32,22 +41,24 @@ export const useMeterReading = () => {
       });
 
       if (uploadRes.status === 200) {
-        
+
         const readingResponse = await axios.post(API_ENDPOINTS.GET_READING, {
-          
+
           fileName: imageFile.name,
           roomNumber: room
         }, {
           headers: { 'Content-Type': 'application/json' }
         });
-
+   console.log(readingResponse.data.output)
 
         if (readingResponse.data.output.toLowerCase() === "na") {
           alert("Please upload an apt photo");
           return false;
         }
+     
+        const reading = getKWh(readingResponse.data.output)
 
-        setReading(readingResponse.data.output);
+        setReading(reading);
         setPrevReading(readingResponse.data.prevReading);
         return true;
       } else {
@@ -77,6 +88,7 @@ export const useMeterReading = () => {
     reading,
     prevReading,
     loading,
+    getKWh,
     uploadImageAndGetReading,
     updateReading,
     resetReading

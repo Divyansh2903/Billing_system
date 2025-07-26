@@ -43,7 +43,8 @@ async function getMeterReading(fileName,roomNumber) {
   const result = await ai.models.generateContent({
     model: "gemini-2.5-flash",
     config: {
-      systemInstruction: process.env.GEMINI_SYSTEM_PROMPT,
+      systemInstruction: process.env.GEMINI_SYSTEM_PROMPT.replace(/\\n/g, '\n'),
+
     },
 
     contents: [

@@ -1,0 +1,31 @@
+{
+  "hash": "0d1ab26f",
+  "configHash": "590f9ded",
+  "lockfileHash": "ef6bef50",
+  "browserHash": "7e6b91c1",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "a61dd92f",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "28eb429f",
+      "needsInterop": true
+    },
+    "react-images-uploading": {
+      "src": "../../node_modules/react-images-uploading/dist/index.js",
+      "file": "react-images-uploading.js",
+      "fileHash": "96176b97",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "chunk-Y455YYDO": {
+      "file": "chunk-Y455YYDO.js"
+    }
+  }
+}

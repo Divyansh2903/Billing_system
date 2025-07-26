@@ -71,7 +71,7 @@ function Bill() {
               </div>
             )}
 
-            {reading && (
+            {(reading!==null) && (
               <>
                 <ReadingDisplay
                   reading={reading}

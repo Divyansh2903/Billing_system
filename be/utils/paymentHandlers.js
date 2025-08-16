@@ -16,7 +16,6 @@ export async function handlePaymentSuccess(payment) {
             order.orderDate = new Date(payment.created_at * 1000);
 
             await order.save();
-            console.log("HOGYA")
         }
     } catch (error) {
         console.error('Error handling payment captured:', error);

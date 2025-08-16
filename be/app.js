@@ -8,6 +8,7 @@ const razorpayRoutes = require('./routes/razorpayRoutes');
 const uploadRoutes=require("./routes/uploadRoutes");
 const meterRoutes=require("./routes/meterRoutes");
 const dashboardRoutes=require("./routes/dashboardRoutes")
+const solanaRoutes=require("./routes/solanaRoutes");
 
 
 const app = express();
@@ -33,6 +34,7 @@ app.use(express.json());
 app.use('/api/upload', uploadRoutes);
 app.use('/api/meter', meterRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/solana',solanaRoutes);
 
 
 app.use(errorHandler);

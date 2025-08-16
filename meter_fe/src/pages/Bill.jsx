@@ -7,10 +7,13 @@ import ReadingDisplay from '../components/ReadingDisplay';
 import { useMeterReading } from '../hooks/useMeterReading';
 import { useImageUpload } from '../hooks/useImageUpload';
 import PaymentButton from '../components/PaymentButton';
+// import SolanaPaymentButton from '../components/SolanaPaymentButton';
+import { useNavigate } from "react-router-dom";
 
 function Bill() {
   const [room, setRoom] = useState(null);
-  
+  const navigate = useNavigate()
+
   const {
     reading,
     prevReading,
@@ -45,7 +48,7 @@ function Bill() {
     <div className='page-container'>
       <div className="w-full max-w-[600px] px-5 pt-2">
         <h2 className="flex justify-center">100x Billing System</h2>
-        
+
         <div className="max-w-md mx-auto mt-10">
           <RoomSelector onRoomChange={setRoom} />
         </div>
@@ -64,14 +67,14 @@ function Bill() {
                 <button
                   onClick={handleGetBill}
                   disabled={loading}
-                  class= "btn-primary"
+                  class="btn-primary"
                 >
                   {loading ? <LoadingIndicator /> : <p>Get Bill</p>}
                 </button>
               </div>
             )}
 
-            {(reading!==null) && (
+            {(reading !== null) && (
               <>
                 <ReadingDisplay
                   reading={reading}
@@ -81,7 +84,19 @@ function Bill() {
 
                 />
                 <div className="flex justify-center my-2">
-                  <PaymentButton roomNumber={room} reading={reading} fileName={selectedImage.name}/>
+                  <PaymentButton roomNumber={room} reading={reading} prevReading={prevReading} fileName={selectedImage.name} />
+                  <button
+                    onClick={()=>{
+                      navigate("/solana-payment", {
+                        state: { room, reading,prevReading, fileName: selectedImage?.name }
+                      });
+
+                    }}
+                    class="btn-primary"
+                  >
+                    <p>Pay using BTC</p>
+                  </button>
+                  {/* <SolanaPaymentButton roomNumber={room} reading={reading} fileName={selectedImage.name} handlePayment={window.location('/solana-payment')}/> */}
                 </div>
               </>
             )}

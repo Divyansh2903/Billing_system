@@ -7,7 +7,7 @@ const PaymentButton = ({roomNumber,reading,fileName}) => {
     const handlePayment = async () => {
         try {
             const response = await axios.post(API_ENDPOINTS.CREATE_ORDER, {
-                amount: 500,
+                amount: (reading*12), 
                 roomNumber: roomNumber,
                 reading,
                 fileName
@@ -31,7 +31,7 @@ const PaymentButton = ({roomNumber,reading,fileName}) => {
                     color: "#3399cc",
                 },
                 // No full-handler needed in wh
-                handler: function (response) {
+                handler: function () {
                     window.location.reload();
                 }
 

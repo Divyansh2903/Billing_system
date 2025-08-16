@@ -56,10 +56,9 @@ export const useMeterReading = () => {
           return false;
         }
      
-        const reading = getKWh(readingResponse.data.output)
-
-        setReading(reading);
-        setPrevReading(readingResponse.data.prevReading);
+      const currentReading = getKWh(readingResponse.data.output);
+setReading(currentReading);
+        setPrevReading(readingResponse.data.prevReading ); 
         return true;
       } else {
         alert("Upload failed");

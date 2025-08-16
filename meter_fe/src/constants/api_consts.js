@@ -6,6 +6,8 @@ export const API_BASE = import.meta.env.VITE_REACT_APP_BACKEND_BASEURL;
 export const API_ENDPOINTS = {
   GET_READING: `${API_BASE}/meter/get-reading`,
   CREATE_ORDER: `${API_BASE}/razorpay/create-order`,
+  CREATE_SOLANA_ORDER:`${API_BASE}/solana/create-solana-order`,
   UPLOAD_URL: `${API_BASE}/upload/upload-url`,
   GET_DASHBOARD_DATA: `${API_BASE}/dashboard/get-data`,
+  GET_CURRENT_SOL_RATE:`${API_BASE}/solana/get-sol-rate`,
 };

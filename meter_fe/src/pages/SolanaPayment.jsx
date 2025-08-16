@@ -123,7 +123,7 @@ function SolanaPaymentPage() {
                             <span className="font-semibold">Room:</span> <span>{room}</span>
                             <span className="font-semibold">Reading:</span> <span>{reading} units</span>
                             <span className="font-semibold">Total Amount:</span> <span>₹{INR_AMOUNT}</span>
-                            <span className="font-semibold">1 SOL :</span> <span>₹{solRateInINR}</span>
+                            <span className="font-semibold">Rate Of 1 SOL in INR :</span> <span>₹{solRateInINR}</span>
                             <span className="font-semibold">SOL Required:</span> <span>{solRequired?.toFixed(6)} SOL</span>
                             <span className="font-semibold">Your Balance:</span> <span>{balance !== null ? `${balance} SOL` : "Loading..."}</span>
                             <span className="font-semibold">Est. Tx Fee:</span> <span>~0.000005 SOL</span>

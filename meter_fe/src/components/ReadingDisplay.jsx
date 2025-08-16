@@ -19,7 +19,7 @@ const ReadingDisplay = ({ reading, prevReading, onReadingChange ,getKWh}) => {
 
     return (
         <div className='my-5'>
-            <p className='text-m'>
+            <p className='text-m text-black'>
                 Your reading is {reading} KWh
                 {prevReading !== 0 && ` and your previous reading was ${prevReading}`}
             </p>
@@ -32,9 +32,10 @@ const ReadingDisplay = ({ reading, prevReading, onReadingChange ,getKWh}) => {
                         <input
                             type="text"
                             value={inputReading}
+                            maxLength={6}
                             onChange={handleInputChange}
                             placeholder="000012"
-                            className="px-4 py-2 border border-gray-300 rounded-md placeholder-gray-500 focus:outline-none text-white"
+                            className="px-4 py-2 border border-gray-300 rounded-md placeholder-gray-500 focus:outline-none text-black"
                         />
                         <button
                             onClick={handleConfirm}

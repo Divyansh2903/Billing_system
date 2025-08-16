@@ -22,6 +22,27 @@
             justify-center 
             my-4;
     }
+        .btn-secondary {
+        @apply 
+            disabled:bg-gray-500 
+            disabled:cursor-not-allowed 
+            w-40 h-10 
+            text-white 
+            mx-1
+            bg-purple-600 
+            hover:bg-gray-900 
+            focus:outline-none 
+            focus:ring-4 
+            focus:ring-gray-300 
+            font-medium 
+            rounded-full 
+            text-sm 
+            px-5 
+            flex 
+            items-center 
+            justify-center 
+            my-4;
+    }
 
     .page-container {
   @apply bg-[#333333] flex flex-col items-center min-h-screen;

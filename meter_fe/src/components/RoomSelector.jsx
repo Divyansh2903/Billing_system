@@ -14,7 +14,7 @@ const RoomSelector = ({ onRoomChange }) => {
       <select
         value={selectedRoom}
         onChange={handleChange}
-        className="w-full p-2 border border-gray-300 rounded-lg text-white "
+        className="w-full p-2 border border-gray-300 rounded-lg text-black "
       >
         <option value="" disabled>Select a room</option>
         {Array.from({ length: 200 }, (_, i) => i + 1).map((num) => (

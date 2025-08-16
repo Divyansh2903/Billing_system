@@ -22,7 +22,7 @@ function SolanaPaymentPage() {
     const [lastUpdated, setLastUpdated] = useState(null);
 
     const { state } = useLocation();
-    const { room, reading, fileName } = state || {};
+    const { room, reading, fileName,prevReading } = state || {};
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -30,8 +30,8 @@ function SolanaPaymentPage() {
             navigate('/');
         }
     }, [state]);
-
-    const INR_AMOUNT = reading * 10;
+    const unitsConsumed=reading-prevReading;
+    const INR_AMOUNT = unitsConsumed * import.meta.env.VITE_PER_UNIT_RATE;
     const hostelWallet = new PublicKey("DNMG4eyJB8bQG2WK25ysmzpJYpw7yzNwe3gq3CoPogiq");
 
     const handleTransaction = async () => {
@@ -62,6 +62,7 @@ function SolanaPaymentPage() {
                 roomNumber: room,
                 reading,
                 fileName,
+                unitsConsumed,
                 paymentStatus: "paid",
                 paymentMethod: "solana",
                 totalAmount: INR_AMOUNT,
@@ -85,6 +86,16 @@ function SolanaPaymentPage() {
     function calculateSolRequired(amountInINR, solPrice) {
         setSolRequired(amountInINR / solPrice);
     }
+    useEffect(() => {
+    let timer;
+    if (status === "success") {
+        timer = setTimeout(() => {
+            navigate('/');
+        }, 5000); 
+    }
+    return () => clearTimeout(timer); 
+}, [status]);
+
 
     useEffect(() => {
         const fetchSolPriceInInr = async () => {
@@ -94,7 +105,9 @@ function SolanaPaymentPage() {
                 setSolRateInINR(solPrice);
                 calculateSolRequired(INR_AMOUNT, solPrice);
                 setLastUpdated(new Date().toLocaleTimeString());
-            } catch (e) {}
+            } catch (e) {
+                alert("Some err occured")
+            }
         };
         fetchSolPriceInInr();
     }, []);
@@ -122,6 +135,7 @@ function SolanaPaymentPage() {
                         <div className="grid grid-cols-2 gap-y-4 text-gray-700 text-sm">
                             <span className="font-semibold">Room:</span> <span>{room}</span>
                             <span className="font-semibold">Reading:</span> <span>{reading} units</span>
+                            <span className="font-semibold">Units Consumed:</span> <span>{unitsConsumed} units</span>
                             <span className="font-semibold">Total Amount:</span> <span>₹{INR_AMOUNT}</span>
                             <span className="font-semibold">Rate Of 1 SOL in INR :</span> <span>₹{solRateInINR}</span>
                             <span className="font-semibold">SOL Required:</span> <span>{solRequired?.toFixed(6)} SOL</span>

@@ -3,7 +3,7 @@ const { Order } = require("../db");
 const uploadServices = require("./uploadServices");
 
 
-async function createOrder(amount, roomNumber,reading,fileName) {
+async function createOrder(amount, roomNumber,reading,fileName,unitsConsumed) {
     const options = {
     amount: amount * 100,
     currency: 'INR',
@@ -21,6 +21,7 @@ async function createOrder(amount, roomNumber,reading,fileName) {
       totalAmount: amount,
       reading,
       billImageURL,
+      unitsConsumed
     });
 
     await newOrder.save();

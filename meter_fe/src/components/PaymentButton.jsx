@@ -2,15 +2,19 @@ import React from 'react';
 import axios from 'axios';
 import { API_ENDPOINTS } from '../constants/api_consts';
 
-const PaymentButton = ({roomNumber,reading,fileName}) => {
+const PaymentButton = ({roomNumber,reading,fileName,prevReading}) => {
 
     const handlePayment = async () => {
+
         try {
+            const unitsConsumed = reading - prevReading;
+
             const response = await axios.post(API_ENDPOINTS.CREATE_ORDER, {
-                amount: (reading*12), 
+                amount: (unitsConsumed*import.meta.env.VITE_PER_UNIT_RATE), 
                 roomNumber: roomNumber,
                 reading,
-                fileName
+                fileName,
+                unitsConsumed
             });
 
             const { id: order_id, amount, currency } = response.data.order;
@@ -23,7 +27,7 @@ const PaymentButton = ({roomNumber,reading,fileName}) => {
                 description: "Electricity Bill Payment",
                 order_id: order_id,
                 prefill: {
-                    name: "Divyansh Singh",
+                    name: roomNumber,
                     email: "sdivyansh001@gmail.com",
                     contact: "9999999999",
                 },

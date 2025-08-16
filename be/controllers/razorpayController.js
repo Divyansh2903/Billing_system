@@ -3,8 +3,8 @@ const razorpayWebhookServices = require("../services/razorpayWebhookServices")
 
 
 exports.createOrder = async (req, res) => {
-    const { amount, roomNumber, reading,fileName } = req.body;
-    const order = await razorpayServices.createOrder(amount,roomNumber,reading,fileName);
+    const { amount, roomNumber, reading,fileName,unitsConsumed } = req.body;
+    const order = await razorpayServices.createOrder(amount,roomNumber,reading,fileName,unitsConsumed);
     res.json(order)
 
 };

@@ -3,15 +3,23 @@ import mongoose from "mongoose";
 export const OrderSchema = new mongoose.Schema({
   orderId: {
     type: String,
-    default:"abc123" 
+    default: "abc123"
   },
-   reading: {
+  reading: {
     type: String,
-    default:0 
+    default: 0
   },
-   billImageURL: {
+  unitsConsumed: {
     type: String,
-    default:"" 
+    default: 0
+  },
+  txSignature: {
+    type: String,
+    default: null
+  },
+  billImageURL: {
+    type: String,
+    default: ""
   },
   roomNumber: {
     type: Number,
@@ -21,11 +29,11 @@ export const OrderSchema = new mongoose.Schema({
     type: Number,
     default: 0.0
   },
-    failureReason: {
+  failureReason: {
     type: String,
     default: null
   },
-  
+
   paymentStatus: {
     type: String,
     enum: ['pending', 'paid', 'failed', 'refunded'],
@@ -36,5 +44,5 @@ export const OrderSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  
+
 });

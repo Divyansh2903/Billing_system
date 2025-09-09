@@ -1,0 +1,50 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("NEONDB_DATABASE_URL")
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+model Order {
+  id                String        @id @default(uuid())
+  orderId           String?
+  razorpayId        String?       @unique
+  reading           Decimal?      @db.Decimal(10, 2)
+  unitsConsumed     Decimal?      @db.Decimal(10, 2)
+  txSignature       String?
+  billImageUrl      String?
+  totalAmount       Decimal?      @db.Decimal(10, 2)
+  failureReason     String?
+  paymentStatus     PaymentStatus @default(PENDING)
+  paymentMethod     String?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  razorpayCreatedAt DateTime?
+  Room              Room?         @relation(fields: [roomId], references: [id])
+  roomId            String?
+}
+
+model Room {
+  id             String    @id @default(uuid())
+  number         Int       @unique
+  floor          Int?
+  lastBillPaidOn DateTime?
+  lastReading    Decimal?  @db.Decimal(10, 2)
+  order          Order[]
+}

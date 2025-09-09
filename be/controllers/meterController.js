@@ -1,5 +1,4 @@
-
-const meterServices = require("../services/meterServices");
+const { default: meterServices } = require("../services/meterServices");
 
 
 exports.getMeterReading = async (req, res) => {
@@ -9,3 +8,7 @@ exports.getMeterReading = async (req, res) => {
     res.send(result);
 }
 
+exports.getAllRooms = async (req, res) => {
+    const result = await meterServices.getAllRooms()
+    res.send(result);
+}

@@ -13,6 +13,8 @@ pids/
 coverage/
 build/
 dist/
+/generated/prisma
+
 
 # === Vite (Frontend) ===
 frontend/node_modules/

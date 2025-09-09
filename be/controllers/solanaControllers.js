@@ -1,5 +1,6 @@
+const { default: solanaServices } = require("../services/solanaServices");
 
-const solanaServices = require("../services/solanaServices");
+
 
 exports.createSolanaOrder = async (req, res) => {
     const { 

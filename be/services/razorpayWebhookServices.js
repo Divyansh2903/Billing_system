@@ -22,7 +22,6 @@ async function verifyPayment(body,headers) {
         
         switch (event.event) {
           case 'payment.captured':
-            console.log("EVENT SUC"+event.payload.payment)
             await handlePaymentSuccess(event.payload.payment.entity);
             break;
           case 'payment.failed':

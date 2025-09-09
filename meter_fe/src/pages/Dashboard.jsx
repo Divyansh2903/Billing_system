@@ -76,16 +76,14 @@ function Dashboard() {
   };
 
   return (
-    <div className="dashboard-container">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1>Billing Dashboard</h1>
+          <h1 className="text-3xl font-extrabold text-gray-900">Billing Dashboard</h1>
         </div>
 
-
-
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-200">
+        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-200">
+          <div className="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-white to-gray-50">
             <h2 className="text-xl font-semibold text-gray-900">Recent Bills</h2>
           </div>
           <div className="overflow-x-auto">
@@ -118,7 +116,7 @@ function Dashboard() {
                           {bill.orderId}
                         </div>
                         <div className="text-sm text-gray-500">
-                          {formatDate(bill.orderDate)}
+                          {formatDate(bill.createdAt)}
                         </div>
                         <div className="text-xs text-gray-400">
                           Reading: {bill.reading}
@@ -162,11 +160,10 @@ function Dashboard() {
           </div>
         </div>
 
-
         {selectedBill && (
-          <div className="fixed inset-0 bg-bgColor bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-              <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+          <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center p-4 z-50">
+            <div className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-gray-200">
+              <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between bg-gradient-to-r from-white to-gray-50 rounded-t-3xl">
                 <h3 className="text-xl font-semibold text-gray-900">Bill Details</h3>
                 <button
                   onClick={() => setSelectedBill(null)}
@@ -192,9 +189,19 @@ function Dashboard() {
                     <span className="text-sm text-gray-900">{selectedBill.reading}</span>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Amount</label>
-                    <span className="text-sm text-gray-900">{selectedBill.totalAmount}</span>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Image Link
+                    </label>
+                    <a
+                      href={selectedBill.billImageUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block max-w-xs truncate text-sm text-blue-600 hover:underline"
+                    >
+                      {selectedBill.billImageUrl}
+                    </a>
                   </div>
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700">Payment Method</label>
                     <span className="text-sm text-gray-900">{selectedBill.paymentMethod}</span>
@@ -207,24 +214,24 @@ function Dashboard() {
                     </div>
                   </div>
                 </div>
-
-                {selectedBill.billImageURL && (
+{/* 
+                {selectedBill.billImageUrl && (
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Bill Image</label>
                     <img
-                      src={selectedBill.billImageURL}
+                      src={selectedBill.billImageUrl}
                       alt="Bill"
-                      className="w-full h-64 object-cover rounded-lg border border-gray-200 object-top "
+                      className="w-full h-64 object-cover rounded-lg border border-gray-200 object-top"
                       onError={(e) => {
                         e.target.style.display = 'none';
                         e.target.nextSibling.style.display = 'block';
                       }}
                     />
-                    <div className="hidden w-full h-64 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-center">
+                    <div className="w-full h-64 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-center">
                       <span className="text-gray-500">Image not available</span>
                     </div>
                   </div>
-                )}
+                )} */}
               </div>
             </div>
           </div>

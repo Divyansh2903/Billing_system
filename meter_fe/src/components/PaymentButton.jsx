@@ -16,11 +16,12 @@ const PaymentButton = ({roomNumber,reading,fileName,prevReading}) => {
                 fileName,
                 unitsConsumed
             });
+            console.log()
 
-            const { id: order_id, amount, currency } = response.data.order;
+            const { id: order_id, amount, currency } = response.data.razorpayOrder;
 
             const options = {
-                key: "rzp_test_3t0KgiMzM9w7Rv",
+                key: import.meta.env.VITE_RAZORPAY_KEY,  
                 amount: amount,
                 currency: currency,
                 name: "100X",

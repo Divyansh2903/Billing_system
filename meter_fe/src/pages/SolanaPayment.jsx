@@ -21,68 +21,91 @@ function SolanaPaymentPage() {
     const [status, setStatus] = useState(null);
     const [lastUpdated, setLastUpdated] = useState(null);
 
-    const { state } = useLocation();
+    const { state } = useLocation(); 
     const { room, reading, fileName,prevReading } = state || {};
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (!state || !room || !reading || !fileName) {
-            navigate('/');
-        }
-    }, [state]);
+    // useEffect(() => {
+    //     if (!state || !room || !reading || !fileName) {
+    //         navigate('/');
+    //     }
+    // }, [state]);
     const unitsConsumed=reading-prevReading;
     const INR_AMOUNT = unitsConsumed * import.meta.env.VITE_PER_UNIT_RATE;
-    const hostelWallet = new PublicKey("DNMG4eyJB8bQG2WK25ysmzpJYpw7yzNwe3gq3CoPogiq");
+    const hostelWallet = new PublicKey("71f3SrEgNSsiSbZKBbNFarjxJJ7HdGydWPGrQNF1i1QQ");
 
-    const handleTransaction = async () => {
-        if (!connection || !publicKey) return;
-        if (balance < solRequired) {
-            alert("Insufficient balance to complete this transaction.");
-            return;
-        }
-        try {
-            setLoading(true);
-            setStatus("pending");
-            const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
-            const transaction = new Transaction().add(
-                SystemProgram.transfer({
-                    fromPubkey: publicKey,
-                    toPubkey: hostelWallet,
-                    lamports: BigInt(Math.floor(solRequired * 1e9)),
-                })
-            );
-            transaction.recentBlockhash = blockhash;
-            transaction.feePayer = publicKey;
-            const signature = await sendTransaction(transaction, connection);
-            await connection.confirmTransaction({ signature, blockhash, lastValidBlockHeight }, "confirmed");
-            setTxSignature(signature);
-            setStatus("success");
-            await axios.post(API_ENDPOINTS.CREATE_SOLANA_ORDER, {
-                orderId: signature,
-                roomNumber: room,
-                reading,
-                fileName,
-                unitsConsumed,
-                paymentStatus: "paid",
-                paymentMethod: "solana",
-                totalAmount: INR_AMOUNT,
-                txSignature: signature,
-            });
-        } catch (err) {
-            setStatus("failed");
-            await axios.post(API_ENDPOINTS.CREATE_SOLANA_ORDER, {
-                orderId: null,
-                roomNumber: room,
-                reading,
-                fileName,
-                paymentStatus: "failed",
-                failureReason: err.message,
-            });
-        } finally {
-            setLoading(false);
-        }
-    };
+    async function createOrder({
+    paymentStatus = "FAILED",
+    paymentMethod = "null",
+    txSignature = "null",
+}) {
+    try {
+        await axios.post(API_ENDPOINTS.CREATE_SOLANA_ORDER, {
+            roomNumber: room,
+            reading,
+            fileName,
+            unitsConsumed,
+            paymentStatus,
+            paymentMethod,
+            totalAmount: INR_AMOUNT,
+            txSignature,
+        });
+    } catch (error) {
+        console.error("Error while creating order:", error);
+    }
+}
 
+
+   const handleTransaction = async () => {
+    if (!connection || !publicKey) return;
+    if (balance < solRequired) {
+        alert("Insufficient balance to complete this transaction.");
+        return;
+    }
+
+    try {
+        setLoading(true);
+        setStatus("pending");
+
+        const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
+
+        const transaction = new Transaction().add(
+            SystemProgram.transfer({
+                fromPubkey: publicKey,
+                toPubkey: hostelWallet,
+                lamports: BigInt(Math.floor(solRequired * 1e9)),
+            })
+        );
+
+        transaction.recentBlockhash = blockhash;
+        transaction.feePayer = publicKey;
+
+        const signature = await sendTransaction(transaction, connection);
+
+        await connection.confirmTransaction({ signature, blockhash, lastValidBlockHeight }, "confirmed");
+
+        setTxSignature(signature);
+        setStatus("success");
+
+
+
+        await createOrder({
+
+            paymentStatus: "PAID",
+            paymentMethod: "solana",
+            txSignature: signature,
+        });
+
+    } catch (err) {
+        setStatus("failed");
+
+        await createOrder({
+            paymentStatus: "FAILED",
+        });
+    } finally {
+        setLoading(false);
+    }
+};
     function calculateSolRequired(amountInINR, solPrice) {
         setSolRequired(amountInINR / solPrice);
     }
@@ -149,7 +172,7 @@ function SolanaPaymentPage() {
                         </div>
                     </div>
                 )}
-                <div className="flex justify-center mb-6">
+                {publicKey&&(<div className="flex justify-center mb-6">
                     <button
                         onClick={handleTransaction}
                         disabled={loading || txSignature}
@@ -162,7 +185,8 @@ function SolanaPaymentPage() {
                             </span>
                         )}
                     </button>
-                </div>
+                </div>)}
+                
                 {status === "pending" && <div className="bg-yellow-100 text-yellow-800 p-4 rounded-xl text-center mb-4 shadow-sm">Transaction pending… </div>}
                 {status === "success" && txSignature && <div className="bg-green-100 text-green-800 p-4 rounded-xl text-center mb-4 shadow-sm">
                  Transaction Successful! <br />

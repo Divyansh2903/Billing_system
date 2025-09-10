@@ -18,19 +18,20 @@ app.use(cors({
   credentials: true
 }));
 
-app.use(
-  '/api/razorpay',
-  (req, res, next) => {
-    if (req.originalUrl === '/api/razorpay') {
-      express.raw({ type: 'application/json' })(req, res, next);
-    } else {
-      express.json()(req, res, next);
-    }
-  },
-  razorpayRoutes
-);
+// app.use(
+//   '/api/razorpay',
+//   (req, res, next) => {
+//     if (req.originalUrl === '/api/razorpay') {
+//       express.raw({ type: 'application/json' })(req, res, next);
+//     } else {
+//       express.json()(req, res, next);
+//     }
+//   },
+//   razorpayRoutes
+// );
 
 app.use(express.json()); 
+app.use('/api/razorpay',razorpayRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/meter', meterRoutes);
 app.use('/api/dashboard', dashboardRoutes);

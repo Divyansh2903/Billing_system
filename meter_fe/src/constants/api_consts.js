@@ -7,6 +7,7 @@ export const API_ENDPOINTS = {
   GET_READING: `${API_BASE}/meter/get-reading`,
   GET_ALL_ROOMS:`${API_BASE}/meter/get-rooms`,
   CREATE_ORDER: `${API_BASE}/razorpay/create-order`,
+  VERIFY_PAYMENT:`${API_BASE}/razorpay/verify-payment`,
   CREATE_SOLANA_ORDER:`${API_BASE}/solana/create-solana-order`,
   UPLOAD_URL: `${API_BASE}/upload/upload-url`,
   GET_DASHBOARD_DATA: `${API_BASE}/dashboard/get-data`,

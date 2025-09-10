@@ -1,8 +1,10 @@
 import { PrismaClient } from "../generated/prisma";
+import { handlePaymentSuccess } from "../utils/paymentHandlers";
 
 const razorpayInstance = require("../config/razorpay");
 const { Order } = require("../db");
 const uploadServices = require("./uploadServices");
+const crypto = require("crypto");
 
 const prisma = new PrismaClient();
 // const { Order } = require("../db");
@@ -52,5 +54,29 @@ export async function createOrder(amount, roomNumber, reading, fileName, unitsCo
   } catch (err) {
     console.error(err);
     throw new Error('Failed to create order: ' + err.message);
+  }
+}
+
+
+export async function verifyPaymentClient(body) {
+  try {
+    const { razorpay_payment_id, razorpay_order_id, razorpay_signature, amount } = body;
+
+    const expectedSignature = crypto
+      .createHmac("sha256", razorpayInstance.key_secret)
+      .update(razorpay_order_id + "|" + razorpay_payment_id)
+      .digest("hex");
+
+    if (expectedSignature !== razorpay_signature) {
+      return { success: false, message: "Invalid signature" };
+    }
+
+
+    await handlePaymentSuccess(razorpay_order_id, razorpay_payment_id, "razorpay", amount);
+
+
+    return { success: true, message: "Success" };
+  } catch (error) {
+    return { success: false, message: `Client Payment side fialure ${error}` };
   }
 }

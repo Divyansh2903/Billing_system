@@ -43,7 +43,7 @@ model Order {
 
 model Room {
   id             String    @id @default(uuid())
-  number         Int       @unique
+  number         String    @unique
   floor          Int?
   lastBillPaidOn DateTime?
   lastReading    Decimal?  @db.Decimal(10, 2)

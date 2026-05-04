@@ -1,11 +1,11 @@
 // import { Order } from '../db/index.js';
 
 
-const { PrismaClient } = require("../generated/prisma")
+const { PrismaClient } = require("../generated/prisma/index.js")
 const prisma = new PrismaClient();
 
 
-export async function handlePaymentSuccess(orderId,razorpay_payment_id,paymentMethod,amount) {
+async function handlePaymentSuccess(orderId,razorpay_payment_id,paymentMethod,amount) {
   try {
 
     await prisma.$transaction(async (tx) => {
@@ -36,7 +36,7 @@ export async function handlePaymentSuccess(orderId,razorpay_payment_id,paymentMe
 
 
 
-export async function handlePaymentFailed(payment) {
+async function handlePaymentFailed(payment) {
   try {
     await prisma.order.upsert({
       where: { razorpayId: payment.order_id },
@@ -56,3 +56,8 @@ export async function handlePaymentFailed(payment) {
     console.error("Error handling payment failed:", error);
   }
 }
+
+module.exports = {
+  handlePaymentSuccess,
+  handlePaymentFailed,
+};

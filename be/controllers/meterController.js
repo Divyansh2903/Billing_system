@@ -1,4 +1,4 @@
-const { default: meterServices } = require("../services/meterServices");
+const meterServices = require("../services/meterServices");
 
 
 exports.getMeterReading = async (req, res) => {

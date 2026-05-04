@@ -1,4 +1,4 @@
-const { default: solanaServices } = require("../services/solanaServices");
+const solanaServices = require("../services/solanaServices");
 
 
 

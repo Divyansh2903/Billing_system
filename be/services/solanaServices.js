@@ -1,4 +1,4 @@
-import { PrismaClient } from "../generated/prisma";
+const { PrismaClient } = require("../generated/prisma/index.js");
 
 const { Order } = require("../db");
 const uploadServices = require("./uploadServices");
@@ -106,4 +106,4 @@ async function createSolanaOrder({
   }
 }
 
-export default { createSolanaOrder, getSolanaPriceInINR }
+module.exports = { createSolanaOrder, getSolanaPriceInINR };

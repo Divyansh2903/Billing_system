@@ -1,4 +1,4 @@
-import { PrismaClient } from "../generated/prisma";
+const { PrismaClient } = require("../generated/prisma/index.js");
 
 const { GoogleGenAI } = require("@google/genai");
 // const { Order } = require("../db");
@@ -77,6 +77,6 @@ async function getMeterReading(fileName, roomNumber) {
 
 
 
-export default {
+module.exports = {
   getMeterReading,getAllRooms
 }

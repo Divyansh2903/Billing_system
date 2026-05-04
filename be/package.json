@@ -5,8 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "prisma generate",
-    "build": "bun server.js",
-    "dev":"bun server.js"
+    "build": "node server.js",
+    "dev":"node server.js"
 
   },
   "author": "",

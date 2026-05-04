@@ -1,4 +1,4 @@
-import { PrismaClient } from "../generated/prisma";
+const { PrismaClient } = require("../generated/prisma/index.js");
 
 const { Order } = require("../db");
 
@@ -11,6 +11,6 @@ async function getDashboardData() {
     
 }
 
-export default{
+module.exports = {
     getDashboardData
-}
+};

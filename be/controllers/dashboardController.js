@@ -1,4 +1,4 @@
-const { default: dashboardServices } = require("../services/dashboardServices");
+const dashboardServices = require("../services/dashboardServices");
 
 exports.getDashboardData = async (req, res) => {
 

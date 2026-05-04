@@ -1,5 +1,5 @@
-import { PrismaClient } from "../generated/prisma";
-import { handlePaymentSuccess } from "../utils/paymentHandlers";
+const { PrismaClient } = require("../generated/prisma/index.js");
+const { handlePaymentSuccess } = require("../utils/paymentHandlers");
 
 const razorpayInstance = require("../config/razorpay");
 const { Order } = require("../db");
@@ -9,7 +9,7 @@ const crypto = require("crypto");
 const prisma = new PrismaClient();
 // const { Order } = require("../db");
 
-export async function createOrder(amount, roomNumber, reading, fileName, unitsConsumed) {
+async function createOrder(amount, roomNumber, reading, fileName, unitsConsumed) {
   const options = {
     amount: Math.round(amount * 100),
     currency: 'INR',
@@ -58,7 +58,7 @@ export async function createOrder(amount, roomNumber, reading, fileName, unitsCo
 }
 
 
-export async function verifyPaymentClient(body) {
+async function verifyPaymentClient(body) {
   try {
     const { razorpay_payment_id, razorpay_order_id, razorpay_signature, amount } = body;
 
@@ -80,3 +80,8 @@ export async function verifyPaymentClient(body) {
     return { success: false, message: `Client Payment side fialure ${error}` };
   }
 }
+
+module.exports = {
+  createOrder,
+  verifyPaymentClient,
+};
